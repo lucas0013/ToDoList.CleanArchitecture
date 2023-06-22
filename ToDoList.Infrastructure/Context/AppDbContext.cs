@@ -10,6 +10,7 @@ namespace ToDoList.Infrastructure.Context
         }
 
         public DbSet<Tarefa> Tarefas { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

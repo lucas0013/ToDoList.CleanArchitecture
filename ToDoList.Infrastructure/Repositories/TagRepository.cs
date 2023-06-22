@@ -5,13 +5,12 @@ using ToDoList.Infrastructure.Repositories.@base;
 
 namespace ToDoList.Infrastructure.Repositories
 {
-    public class TarefaRepository : Repository<Tarefa>, ITarefaRepository
+    public class TagRepository : Repository<Tag>, ITagRepository
     {
         public readonly AppDbContext _context;
-        public TarefaRepository(AppDbContext context) : base(context)
+        public TagRepository(AppDbContext context) : base(context)
         {
             _context = context;
         }
-
     }
 }

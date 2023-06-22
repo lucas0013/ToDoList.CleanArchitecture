@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDoList.Infrastructure.Context;
 
@@ -10,9 +11,11 @@ using ToDoList.Infrastructure.Context;
 namespace ToDoList.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230622013518_adiciona_tag")]
+    partial class adiciona_tag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
@@ -27,7 +30,12 @@ namespace ToDoList.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TarefaId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TarefaId");
 
                     b.ToTable("Tags");
                 });
@@ -44,32 +52,25 @@ namespace ToDoList.Infrastructure.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("TagId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TagId");
-
                     b.ToTable("Tarefas");
-                });
-
-            modelBuilder.Entity("ToDoList.Domain.Entities.Tarefa", b =>
-                {
-                    b.HasOne("ToDoList.Domain.Entities.Tag", "Tag")
-                        .WithMany("Tarefas")
-                        .HasForeignKey("TagId");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("ToDoList.Domain.Entities.Tag", b =>
                 {
-                    b.Navigation("Tarefas");
+                    b.HasOne("ToDoList.Domain.Entities.Tarefa", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("TarefaId");
+                });
+
+            modelBuilder.Entity("ToDoList.Domain.Entities.Tarefa", b =>
+                {
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,6 +9,7 @@ namespace Catalogo.Application.Mappings
         public DomainToDTOMappingProfile()
         {
             CreateMap<Tarefa, TarefaDTO>().ReverseMap();
+            CreateMap<Tag, TagDTO>().ReverseMap();
         }
     }
 }

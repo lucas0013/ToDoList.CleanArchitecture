@@ -7,42 +7,42 @@ namespace ToDoList.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TarefaController : ControllerBase
+    public class TagsController : ControllerBase
     {
-        private readonly ITarefaService _tarefaService;
-        public TarefaController(ITarefaService tarefaService)
+        private readonly ITagService _tagService;
+        public TagsController(ITagService tagService)
         {
-            _tarefaService = tarefaService;
+            _tagService = tagService;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var tarefas = _tarefaService.GetAll();
-            return Ok(tarefas);
+            var Tags = _tagService.GetAll();
+            return Ok(Tags);
         }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var tarefa = _tarefaService.GetById(id);
-            return Ok(tarefa);
+            var Tag = _tagService.GetById(id);
+            return Ok(Tag);
         }
         [HttpPost]
-        public IActionResult Post(TarefaDTO tarefa)
+        public IActionResult Post(TagDTO Tag)
         {
-            _tarefaService.Create(tarefa);
+            _tagService.Create(Tag);
             return Ok();
         }
         [HttpPut]
-        public IActionResult Put(TarefaDTO tarefa)
+        public IActionResult Put(TagDTO Tag)
         {
-            _tarefaService.Edit(tarefa);
+            _tagService.Edit(Tag);
             return Ok();
         }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _tarefaService.Delete(id);
+            _tagService.Delete(id);
             return Ok();
         }
     }

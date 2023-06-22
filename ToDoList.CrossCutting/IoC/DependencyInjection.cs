@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ToDoList.Application.Interfaces;
 using ToDoList.Application.Services;
 using ToDoList.Domain.Interfaces;
+using ToDoList.Domain.IRepositories;
 using ToDoList.Infrastructure.Context;
 using ToDoList.Infrastructure.Repositories;
 
@@ -21,6 +22,11 @@ namespace ToDoList.CrossCutting.IoC
 
             services.AddScoped<ITarefaRepository, TarefaRepository>();
             services.AddScoped<ITarefaService, TarefaService>();
+            
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<ITagService, TagService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

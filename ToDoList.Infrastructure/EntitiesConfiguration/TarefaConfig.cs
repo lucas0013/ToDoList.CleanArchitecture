@@ -9,9 +9,12 @@ namespace ToDoList.Infrastructure.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<Tarefa> builder)
         {
             builder.HasKey(t => t.Id);
-            builder.Property(p => p.Titulo).IsRequired();
-            builder.Property(p => p.Descricao);
-            builder.Property(p => p.Concluida).IsRequired();
+            builder.Property(t => t.Titulo).IsRequired();
+            builder.Property(t => t.Descricao);
+            builder.Property(t => t.Concluida).IsRequired();
+            builder.Property(t => t.TagId);
+
+            builder.HasOne(t => t.Tag);
         }
     }
 }
