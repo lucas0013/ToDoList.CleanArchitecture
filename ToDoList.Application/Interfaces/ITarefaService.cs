@@ -1,13 +1,15 @@
 ﻿using ToDoList.Application.DTOs;
+using ToDoList.Domain.Entities.@base;
 
 namespace ToDoList.Application.Interfaces
 {
     public interface ITarefaService
     {
-        IEnumerable<TarefaDTO> GetAll();
-        TarefaDTO GetById(int id);
-        void Create(TarefaDTO tarefa);
+        Task<List<TarefaDTO>> GetAllAsync();
+        Task<PagedSearchList<TarefaDTO>> FindAsync(string busca, int page, int pageSize);
+        Task<TarefaDTO> GetByIdAsync(int id);
+        Task CreateAsync(TarefaDTO tarefa);
         void Edit(TarefaDTO tarefa);
-        void Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

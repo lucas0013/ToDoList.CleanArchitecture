@@ -1,13 +1,15 @@
 ﻿using ToDoList.Application.DTOs;
+using ToDoList.Domain.Entities.@base;
 
 namespace ToDoList.Application.Interfaces
 {
     public interface ITagService
     {
-        IEnumerable<TagDTO> GetAll();
-        TagDTO GetById(int id);
-        void Create(TagDTO Tag);
+        Task<List<TagDTO>> GetAllAsync();
+        Task<PagedSearchList<TagDTO>> FindAsync(string busca, int page, int pageSize);
+        Task<TagDTO> GetByIdAsync(int id);
+        Task CreateAsync(TagDTO Tag);
         void Edit(TagDTO Tag);
-        void Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

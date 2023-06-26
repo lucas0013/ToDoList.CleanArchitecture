@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Application.DTOs;
 using ToDoList.Application.Interfaces;
+using ToDoList.Application.Services;
+using ToDoList.Domain.Entities;
 
 namespace ToDoList.API.Controllers
 {
@@ -16,33 +18,54 @@ namespace ToDoList.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<ActionResult<List<TagDTO>>> Get([FromQuery] string? busca = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var Tags = _tagService.GetAll();
-            return Ok(Tags);
+            if (busca == null) busca = "";
+            var tags = await _tagService.FindAsync(busca, page, pageSize);
+            return Ok(tags);
         }
+
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<ActionResult<TagDTO>> GetById(int id)
         {
-            var Tag = _tagService.GetById(id);
+            var Tag = await _tagService.GetByIdAsync(id);
+            if (Tag == null)
+            {
+                return NotFound("Tag não encontrada");
+            }
             return Ok(Tag);
         }
+
         [HttpPost]
-        public IActionResult Post(TagDTO Tag)
+        public async Task<IActionResult> Post(TagDTO Tag)
         {
-            _tagService.Create(Tag);
+            await _tagService.CreateAsync(Tag);
             return Ok();
         }
+
         [HttpPut]
-        public IActionResult Put(TagDTO Tag)
+        public async Task<IActionResult> Put(TagDTO Tag)
         {
+            var TagCheck = await _tagService.GetByIdAsync(Tag.Id);
+            if (TagCheck == null)
+            {
+                return NotFound("Tag não encontrada");
+            }
+
             _tagService.Edit(Tag);
             return Ok();
         }
+
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _tagService.Delete(id);
+            var TagCheck = await _tagService.GetByIdAsync(id);
+            if (TagCheck == null)
+            {
+                return NotFound("Tag não encontrada");
+            }
+
+            await _tagService.DeleteAsync(id);
             return Ok();
         }
     }

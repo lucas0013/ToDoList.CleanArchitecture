@@ -11,22 +11,22 @@ namespace ToDoList.Infrastructure.Repositories.@base
 
         public Repository(AppDbContext contexto)
         {
-            _context = contexto;
+             _context = contexto;
         }
 
-        public IQueryable<T> Get()
+        public async Task<List<T>> GetAllAsync()
         {
-            return _context.Set<T>().AsNoTracking();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public T GetById(Expression<Func<T, bool>> predicate)
+        public async Task<T?> GetByIdAsync(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().AsNoTracking().SingleOrDefault(predicate);
+            return await _context.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
         }
 
-        public void Add(T entity)
+        public async Task AddAsync(T entity)
         {
-            _context.Set<T>().Add(entity);
+            await _context.Set<T>().AddAsync(entity);
         }
 
         public void Delete(T entity)

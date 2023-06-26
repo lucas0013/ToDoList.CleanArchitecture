@@ -2,6 +2,7 @@
 using ToDoList.Application.DTOs;
 using ToDoList.Application.Interfaces;
 using ToDoList.Domain.Entities;
+using ToDoList.Domain.Entities.@base;
 using ToDoList.Domain.Interfaces;
 using ToDoList.Domain.IRepositories;
 
@@ -18,37 +19,48 @@ namespace ToDoList.Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<TagDTO> GetAll()
+        public async Task<List<TagDTO>> GetAllAsync()
         {
-            return _mapper.Map<IEnumerable<TagDTO>>(_unitOfWork.TagRepository.Get());
+            var tags = await _tagRepository.GetAllAsync();
+            return _mapper.Map<List<TagDTO>>(tags);
         }
-        public TagDTO GetById(int id)
+
+        public async Task<PagedSearchList<TagDTO>> FindAsync(string busca, int page, int pageSize)
         {
-            return _mapper.Map<TagDTO>(_unitOfWork.TagRepository.GetById(t=> t.Id == id));
+            var tarefas = await _tagRepository.FindAsync(busca, page, pageSize);
+
+            return _mapper.Map<PagedSearchList<TagDTO>>(tarefas);
+        }
+
+        public async Task<TagDTO> GetByIdAsync(int id)
+        {
+            var tag = await _tagRepository.GetByIdAsync(t => t.Id == id);
+            return _mapper.Map<TagDTO>(tag);
         }
         
-        public void Create(TagDTO Tag)
+        public async Task CreateAsync(TagDTO Tag)
         {
-            _unitOfWork.TagRepository.Add(_mapper.Map<Tag>(Tag));
-            _unitOfWork.Commit();
+            await _tagRepository.AddAsync(_mapper.Map<Tag>(Tag));
+            await _unitOfWork.Commit();
         }
 
         public void Edit(TagDTO Tag)
         {
-            _unitOfWork.TagRepository.Update(_mapper.Map<Tag>(Tag));
+            _tagRepository.Update(_mapper.Map<Tag>(Tag));
             _unitOfWork.Commit();
         }
-        public void Delete(int id)
+
+        public async Task DeleteAsync(int id)
         {
-            var tag = _unitOfWork.TagRepository.GetById(p => p.Id == id);
+            var tag = await _tagRepository.GetByIdAsync(p => p.Id == id);
 
             if (tag == null)
             {
                 return;
             }
 
-            _unitOfWork.TagRepository.Delete(tag);
-            _unitOfWork.Commit();
+            _tagRepository.Delete(tag);
+            await _unitOfWork.Commit();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using System.Collections.Generic;
 using ToDoList.Application.DTOs;
 using ToDoList.Application.Interfaces;
 using ToDoList.Domain.Entities;
+using ToDoList.Domain.Entities.@base;
 using ToDoList.Domain.Interfaces;
 using ToDoList.Domain.IRepositories;
 
@@ -18,37 +20,47 @@ namespace ToDoList.Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<TarefaDTO> GetAll()
+        public async Task<List<TarefaDTO>> GetAllAsync()
         {
-            return _mapper.Map<IEnumerable<TarefaDTO>>(_unitOfWork.TarefaRepository.Get());
+            var tarefas = await _tarefaRepository.GetAllAsync();
+            return _mapper.Map<List<TarefaDTO>>(tarefas);
         }
-        public TarefaDTO GetById(int id)
+
+        public async Task<PagedSearchList<TarefaDTO>> FindAsync(string busca, int page, int pageSize) {
+            var tarefas = await _tarefaRepository.FindAsync(busca, page, pageSize);
+
+            return _mapper.Map<PagedSearchList<TarefaDTO>>(tarefas);
+        }
+
+        public async Task<TarefaDTO> GetByIdAsync(int id)
         {
-            return _mapper.Map<TarefaDTO>(_unitOfWork.TarefaRepository.GetById(p => p.Id == id));
+            var tarefa = await _tarefaRepository.GetByIdAsync(p => p.Id == id);
+            return _mapper.Map<TarefaDTO>(tarefa);
         }
         
-        public void Create(TarefaDTO tarefa)
+        public async Task CreateAsync(TarefaDTO tarefa)
         {
-            _unitOfWork.TarefaRepository.Add(_mapper.Map<Tarefa>(tarefa));
-            _unitOfWork.Commit();
+            await _tarefaRepository.AddAsync(_mapper.Map<Tarefa>(tarefa));
+            await _unitOfWork.Commit();
         }
 
         public void Edit(TarefaDTO tarefa)
         {
-            _unitOfWork.TarefaRepository.Update(_mapper.Map<Tarefa>(tarefa));
+            _tarefaRepository.Update(_mapper.Map<Tarefa>(tarefa));
             _unitOfWork.Commit();
         }
-        public void Delete(int id)
+
+        public async Task DeleteAsync(int id)
         {
-            var tarefa = _unitOfWork.TarefaRepository.GetById(p => p.Id == id);
+            var tarefa = await _tarefaRepository.GetByIdAsync(p => p.Id == id);
 
             if (tarefa == null)
             {
                 return;
             }
 
-            _unitOfWork.TarefaRepository.Delete(tarefa);
-            _unitOfWork.Commit();
+            _tarefaRepository.Delete(tarefa);
+            await _unitOfWork.Commit();
         }
     }
 }

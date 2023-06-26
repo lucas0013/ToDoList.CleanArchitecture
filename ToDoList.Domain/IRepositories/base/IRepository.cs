@@ -4,9 +4,9 @@ namespace ToDoList.Domain.IRepositories.@base
 {
     public interface IRepository<T>
     {
-        IQueryable<T> Get();
-        T GetById(Expression<Func<T, bool>> predicate);
-        void Add(T entity);
+        Task<List<T>> GetAllAsync();
+        Task<T?> GetByIdAsync(Expression<Func<T, bool>> predicate);
+        Task AddAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
 

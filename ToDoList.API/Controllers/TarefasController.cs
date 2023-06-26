@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Application.DTOs;
 using ToDoList.Application.Interfaces;
+using ToDoList.Domain.Entities;
 
 namespace ToDoList.API.Controllers
 {
@@ -16,33 +17,42 @@ namespace ToDoList.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<ActionResult<List<TarefaDTO>>> Get([FromQuery] string? busca= "", [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var tarefas = _tarefaService.GetAll();
+            if (busca == null) busca = "";
+            var tarefas = await _tarefaService.FindAsync(busca, page, pageSize);
             return Ok(tarefas);
         }
+
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<ActionResult<TarefaDTO>> GetById(int id)
         {
-            var tarefa = _tarefaService.GetById(id);
+            var tarefa = await _tarefaService.GetByIdAsync(id);
+            if(tarefa == null) return NotFound("Tarefa não encontrada");
             return Ok(tarefa);
         }
+
         [HttpPost]
-        public IActionResult Post(TarefaDTO tarefa)
+        public async Task<ActionResult> Post(TarefaDTO tarefa)
         {
-            _tarefaService.Create(tarefa);
+            await _tarefaService.CreateAsync(tarefa);
             return Ok();
         }
+
         [HttpPut]
-        public IActionResult Put(TarefaDTO tarefa)
+        public async Task<ActionResult> Put(TarefaDTO tarefa)
         {
+            var tarefaCheck = await _tarefaService.GetByIdAsync(tarefa.Id);
+            if (tarefaCheck == null) return NotFound("Tarefa não encontrada");
             _tarefaService.Edit(tarefa);
             return Ok();
         }
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _tarefaService.Delete(id);
+            var tarefaCheck = await _tarefaService.GetByIdAsync(id);
+            if (tarefaCheck == null) return NotFound("Tarefa não encontrada");
+            await _tarefaService.DeleteAsync(id);
             return Ok();
         }
     }
