@@ -17,19 +17,18 @@ namespace ToDoList.Infrastructure.Repositories
 
         public async Task<PagedSearchList<Tarefa>> FindAsync(string busca, int page, int pageSize) {
 
-            var list = await _context.Tarefas
-                        .Where(t => t.Titulo.ToUpper().Trim().Contains(busca.ToUpper().Trim()))
-                        .Skip((page - 1) * pageSize)
+            var query = _context.Tarefas.Where(t => t.Titulo.ToUpper().Trim().Contains(busca.ToUpper().Trim()));
+
+            var list = await query.Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToListAsync();
 
             return new PagedSearchList<Tarefa> {
                 CurrentPage = page,
                 PageSize = pageSize,
-                TotalResults = await _context.Tarefas.CountAsync(),
+                TotalResults = await query.CountAsync(),
                 ItemsList = list
             };
-
         }
     }
 }

@@ -35,8 +35,7 @@ namespace ToDoList.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(TarefaDTO tarefa)
         {
-            await _tarefaService.CreateAsync(tarefa);
-            return Ok();
+            return Ok((await _tarefaService.CreateAsync(tarefa)).Id);
         }
 
         [HttpPut]
@@ -45,7 +44,7 @@ namespace ToDoList.API.Controllers
             var tarefaCheck = await _tarefaService.GetByIdAsync(tarefa.Id);
             if (tarefaCheck == null) return NotFound("Tarefa não encontrada");
             _tarefaService.Edit(tarefa);
-            return Ok();
+            return Ok("Tarefa Atualizada!");
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
@@ -53,7 +52,7 @@ namespace ToDoList.API.Controllers
             var tarefaCheck = await _tarefaService.GetByIdAsync(id);
             if (tarefaCheck == null) return NotFound("Tarefa não encontrada");
             await _tarefaService.DeleteAsync(id);
-            return Ok();
+            return Ok("Deletado com sucesso!");
         }
     }
 }

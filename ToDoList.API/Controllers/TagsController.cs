@@ -39,8 +39,7 @@ namespace ToDoList.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(TagDTO Tag)
         {
-            await _tagService.CreateAsync(Tag);
-            return Ok();
+            return Ok((await _tagService.CreateAsync(Tag)).Id);
         }
 
         [HttpPut]
@@ -53,7 +52,7 @@ namespace ToDoList.API.Controllers
             }
 
             _tagService.Edit(Tag);
-            return Ok();
+            return Ok("Categoria Atualizada!");
         }
 
         [HttpDelete("{id}")]
@@ -66,7 +65,7 @@ namespace ToDoList.API.Controllers
             }
 
             await _tagService.DeleteAsync(id);
-            return Ok();
+            return Ok("Deletado com sucesso!");
         }
     }
 }

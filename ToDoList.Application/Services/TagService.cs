@@ -38,10 +38,11 @@ namespace ToDoList.Application.Services
             return _mapper.Map<TagDTO>(tag);
         }
         
-        public async Task CreateAsync(TagDTO Tag)
+        public async Task<TagDTO> CreateAsync(TagDTO Tag)
         {
-            await _tagRepository.AddAsync(_mapper.Map<Tag>(Tag));
+            var result = await _tagRepository.AddAsync(_mapper.Map<Tag>(Tag));
             await _unitOfWork.Commit();
+            return _mapper.Map<TagDTO>(result);
         }
 
         public void Edit(TagDTO Tag)

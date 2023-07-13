@@ -17,10 +17,10 @@ namespace ToDoList.Infrastructure.Repositories
 
         public async Task<PagedSearchList<Tag>> FindAsync(string busca, int page, int pageSize)
         {
+            var query = _context.Tags
+                        .Where(t => t.Nome.ToUpper().Trim().Contains(busca.ToUpper().Trim()));
 
-            var list = await _context.Tags
-                        .Where(t => t.Nome.ToUpper().Trim().Contains(busca.ToUpper().Trim()))
-                        .Skip((page - 1) * pageSize)
+            var list = await query.Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .ToListAsync();
 
@@ -28,7 +28,7 @@ namespace ToDoList.Infrastructure.Repositories
             {
                 CurrentPage = page,
                 PageSize = pageSize,
-                TotalResults = await _context.Tags.CountAsync(),
+                TotalResults = await query.CountAsync(),
                 ItemsList = list
             };
 

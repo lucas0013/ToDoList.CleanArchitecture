@@ -8,7 +8,7 @@ namespace ToDoList.Application.Interfaces
         Task<List<TarefaDTO>> GetAllAsync();
         Task<PagedSearchList<TarefaDTO>> FindAsync(string busca, int page, int pageSize);
         Task<TarefaDTO> GetByIdAsync(int id);
-        Task CreateAsync(TarefaDTO tarefa);
+        Task<TarefaDTO> CreateAsync(TarefaDTO tarefa);
         void Edit(TarefaDTO tarefa);
         Task DeleteAsync(int id);
     }

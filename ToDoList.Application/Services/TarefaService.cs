@@ -38,10 +38,12 @@ namespace ToDoList.Application.Services
             return _mapper.Map<TarefaDTO>(tarefa);
         }
         
-        public async Task CreateAsync(TarefaDTO tarefa)
+        public async Task<TarefaDTO> CreateAsync(TarefaDTO tarefa)
         {
-            await _tarefaRepository.AddAsync(_mapper.Map<Tarefa>(tarefa));
+            var result = await _tarefaRepository.AddAsync(_mapper.Map<Tarefa>(tarefa));
             await _unitOfWork.Commit();
+
+            return _mapper.Map<TarefaDTO>(result);
         }
 
         public void Edit(TarefaDTO tarefa)

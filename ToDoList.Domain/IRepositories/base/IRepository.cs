@@ -6,7 +6,7 @@ namespace ToDoList.Domain.IRepositories.@base
     {
         Task<List<T>> GetAllAsync();
         Task<T?> GetByIdAsync(Expression<Func<T, bool>> predicate);
-        Task AddAsync(T entity);
+        Task<T> AddAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
 

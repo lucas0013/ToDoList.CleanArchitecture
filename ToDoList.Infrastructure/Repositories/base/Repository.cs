@@ -24,9 +24,11 @@ namespace ToDoList.Infrastructure.Repositories.@base
             return await _context.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            var result = await _context.Set<T>().AddAsync(entity);
+
+            return result.Entity;
         }
 
         public void Delete(T entity)

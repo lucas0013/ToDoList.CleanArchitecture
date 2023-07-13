@@ -8,7 +8,7 @@ namespace ToDoList.Application.Interfaces
         Task<List<TagDTO>> GetAllAsync();
         Task<PagedSearchList<TagDTO>> FindAsync(string busca, int page, int pageSize);
         Task<TagDTO> GetByIdAsync(int id);
-        Task CreateAsync(TagDTO Tag);
+        Task<TagDTO> CreateAsync(TagDTO Tag);
         void Edit(TagDTO Tag);
         Task DeleteAsync(int id);
     }
