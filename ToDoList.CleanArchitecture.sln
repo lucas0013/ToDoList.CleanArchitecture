@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.CrossCutting", "To
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.API", "ToDoList.API\ToDoList.API.csproj", "{38A2952F-1BAC-4820-A7C4-6603840523CE}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{96B6708D-0390-4FD7-8031-65C61A03F587}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{38A2952F-1BAC-4820-A7C4-6603840523CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38A2952F-1BAC-4820-A7C4-6603840523CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38A2952F-1BAC-4820-A7C4-6603840523CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B6708D-0390-4FD7-8031-65C61A03F587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B6708D-0390-4FD7-8031-65C61A03F587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B6708D-0390-4FD7-8031-65C61A03F587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B6708D-0390-4FD7-8031-65C61A03F587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
