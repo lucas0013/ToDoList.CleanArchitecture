@@ -34,6 +34,16 @@ services:
       - todolist_data:/var/lib/postgresql/data/ 
     networks:
       - dev
+  app_front:
+    image: todolist_front
+    container_name: todolist_front
+    ports:
+      - "5173:5173"
+    build:
+      context: ..\..\VSC\React_dev\todolist\
+      dockerfile: Dockerfile
+    networks:
+      - dev
 
 volumes:
   todolist_data:
