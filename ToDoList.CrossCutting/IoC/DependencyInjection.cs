@@ -20,7 +20,7 @@ namespace ToDoList.CrossCutting.IoC
             IConfiguration configuration)
         {            
             services.AddDbContext<AppDbContext>(options =>
-                                options.UseNpgsql(configuration.GetConnectionString("PostgreSql")));
+                                options.UseNpgsql(configuration.GetConnectionString("PostgreSqlAws")));
 
             services
                 .AddIdentity<ApplicationUser, IdentityRole>(options => {
