@@ -48,14 +48,20 @@ builder.Services.AddInfrastructureJWT(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
-
-    options.AddPolicy(name: "Docker_front",
+    options.AddPolicy(name: "Dev_front",
                       policy =>
                       {
-                          policy
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .AllowAnyOrigin();
+                        policy.WithOrigins("http://127.0.0.1:5173")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                      });
+
+    options.AddPolicy(name: "Dev_back",
+                      policy => 
+                      {
+                         policy.WithOrigins("http://localhost:7289")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                       });
 });
 
@@ -68,7 +74,6 @@ var app = builder.Build();
     app.UseSwaggerUI();
     app.UseCors("Dev_front");
     app.UseCors("Dev_back");
-    app.UseCors("Docker_front");
 //}
 
 await using var scope = app.Services.CreateAsyncScope();

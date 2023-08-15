@@ -1,8 +1,7 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /
-EXPOSE 5009
+WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 EXPOSE 5435
@@ -16,7 +15,7 @@ WORKDIR "/src/ToDoList.API"
 RUN dotnet build "ToDoList.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ToDoList.API.csproj" -c Release -o /app/publish /p:UseAppHost=true
+RUN dotnet publish "ToDoList.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
